@@ -8,6 +8,8 @@ Usage:
 cd jenkinsci/my-plugin
 mvn hpi:run &
 docker run --rm -p 127.0.0.1:80:80 --network=host jglick/jenkins-demo-reverse-proxy
+osx
+docker run --rm -p 127.0.0.1:80:80 jglick/jenkins-demo-reverse-proxy
 ```
 
 Then browse http://localhost/jenkins/ to see the result.
