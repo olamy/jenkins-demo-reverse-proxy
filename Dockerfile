@@ -1,15 +1,19 @@
-FROM ubuntu:14.04
-MAINTAINER jglick@cloudbees.com
+FROM ubuntu:18.04
+MAINTAINER olamy@apache.org
+# Default to UTF-8 file.encoding
+ENV LANG C.UTF-8
+RUN apt update && \
+    apt upgrade -y && \
+    apt install -y apache2 curl && \
+    apt-get install -y --no-install-recommends curl ca-certificates fontconfig locales && \
+    echo "en_US.UTF-8 UTF-8" >> /etc/locale.gen && \
+    locale-gen en_US.UTF-8 && \
+    apt -q autoremove && \
+    apt -q clean -y &&   \
+    rm -rf /var/lib/apt/lists/* && \
+    rm -f /var/cache/apt/*.bin
 
-# adapted from gvangool/docker-apache2
-ENV DEBIAN_FRONTEND noninteractive
-RUN locale-gen en_US.UTF-8 && dpkg-reconfigure locales
-#RUN echo "deb http://archive.ubuntu.com/ubuntu trusty universe" >> /etc/apt/sources.list
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y apache2 curl && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+
 ENV APACHE_RUN_USER www-data
 ENV APACHE_RUN_GROUP www-data
 ENV APACHE_LOG_DIR /var/log/apache2
